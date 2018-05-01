@@ -91,7 +91,7 @@ def try_pass(password,status=0.0,verbose=True):
             sys.stdout.write("[-] "+ password+"\n")
             sys.stdout.write("[+] Progress: {0:.4f}".format(status*100)+"%")
             sys.stdout.write("\033[F")
-            sys.stdout.write(20*" "+"\r")
+            sys.stdout.write(40*" "+"\r")
 
 def bruteforce(mode="wordlist",verbose=True):
 
@@ -106,7 +106,11 @@ def bruteforce(mode="wordlist",verbose=True):
                 return lst[x]
             
             status = float(x) / num_lines
-            try_pass(password(),status,verbose)
+            try:
+                try_pass(password(),status,verbose)
+            except UnicodeDecodeError:
+                # Couldn't encode the given password
+                None
         print("[-] No Password was found")
     elif mode == "bruteforce":
         def bruteforce(charset, maxlength):
